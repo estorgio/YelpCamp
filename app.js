@@ -25,19 +25,19 @@ var campgroundSchema = new mongoose.Schema({
 
 var Campground = mongoose.model("Campground", campgroundSchema);
 
-Campground.create({
-  name: "Granite Hill",
-  image: "https://farm7.staticflickr.com/6014/6015893151_044a2af184.jpg",
-  description: 'This is a huge granite hill, no bathrooms. No water. Beautiful granite!'
-}, function (err, campground) {
-  if (err) {
-    console.log('An error occurred while adding to the database.');
-    console.log(err);
-  } else {
-    console.log('Campground successfully added.');
-    console.log(campground);
-  }
-});
+// Campground.create({
+//   name: "Granite Hill",
+//   image: "https://farm7.staticflickr.com/6014/6015893151_044a2af184.jpg",
+//   description: 'This is a huge granite hill, no bathrooms. No water. Beautiful granite!'
+// }, function (err, campground) {
+//   if (err) {
+//     console.log('An error occurred while adding to the database.');
+//     console.log(err);
+//   } else {
+//     console.log('Campground successfully added.');
+//     console.log(campground);
+//   }
+// });
 
 app.get('/', function (req, res) {
   res.render('landing');
@@ -48,7 +48,7 @@ app.get('/campgrounds', function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.render('campgrounds', {campgrounds: allCampgrounds});
+      res.render('index', {campgrounds: allCampgrounds});
     }
   });
 });
@@ -56,9 +56,11 @@ app.get('/campgrounds', function (req, res) {
 app.post('/campgrounds', function (req, res) {
   var name = req.body.name;
   var image = req.body.image;
+  var description = req.body.description;
   var newCampground = {
     name: name,
-    image: image
+    image: image,
+    description: description
   };
 
   Campground.create(newCampground, function (err, campground) {
@@ -76,7 +78,14 @@ app.get('/campgrounds/new', function (req, res) {
 
 app.get('/campgrounds/:id', function (req, res) {
   var id = req.params.id;
-  res.send('This will be the show page one day.');
+  Campground.findById(id,  function (err, foundCampground) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render('show', {campground: foundCampground});
+    }
+  });
+  // res.send('This will be the show page one day.');
 });
 
 app.listen(3000, function () {

@@ -19,23 +19,25 @@ app.disable('x-powered-by');
 // SCHEMA SETUP
 var campgroundSchema = new mongoose.Schema({
   name: String,
-  image: String
+  image: String,
+  description: String
 });
 
 var Campground = mongoose.model("Campground", campgroundSchema);
 
-// Campground.create({
-//   name: "Granite Hill",
-//   image: "https://farm7.staticflickr.com/6014/6015893151_044a2af184.jpg"
-// }, function (err, campground) {
-//   if (err) {
-//     console.log('An error occurred while adding to the database.');
-//     console.log(err);
-//   } else {
-//     console.log('Campground successfully added.');
-//     console.log(campground);
-//   }
-// });
+Campground.create({
+  name: "Granite Hill",
+  image: "https://farm7.staticflickr.com/6014/6015893151_044a2af184.jpg",
+  description: 'This is a huge granite hill, no bathrooms. No water. Beautiful granite!'
+}, function (err, campground) {
+  if (err) {
+    console.log('An error occurred while adding to the database.');
+    console.log(err);
+  } else {
+    console.log('Campground successfully added.');
+    console.log(campground);
+  }
+});
 
 app.get('/', function (req, res) {
   res.render('landing');
@@ -70,6 +72,11 @@ app.post('/campgrounds', function (req, res) {
 
 app.get('/campgrounds/new', function (req, res) {
   res.render('new');
+});
+
+app.get('/campgrounds/:id', function (req, res) {
+  var id = req.params.id;
+  res.send('This will be the show page one day.');
 });
 
 app.listen(3000, function () {

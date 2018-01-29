@@ -6,17 +6,17 @@ var data = [
   {
     name: "Cloud's Rest",
     image: "https://farm4.staticflickr.com/3273/2602356334_20fbb23543.jpg",
-    description: "Nice campsite"
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales iaculis ante quis auctor. Quisque sit amet semper nisl. Nullam sit amet dictum leo, at scelerisque purus. Cras sit amet sapien urna. Cras molestie ornare justo et convallis. Suspendisse potenti. Suspendisse a justo eu sapien aliquam scelerisque. Aliquam feugiat dapibus tellus, non lobortis lectus maximus vitae. Integer in blandit nisl. Cras pretium pellentesque ultrices. Nullam metus justo, efficitur sed malesuada nec, mattis in dolor. Nulla facilisi. Pellentesque tristique euismod pulvinar. Integer blandit urna nisl, et cursus velit scelerisque vel."
   },
   {
     name: "Desert Mesa",
     image: "https://farm9.staticflickr.com/8673/15989950903_8185ed97c3.jpg",
-    description: "Nice campsite tho"
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales iaculis ante quis auctor. Quisque sit amet semper nisl. Nullam sit amet dictum leo, at scelerisque purus. Cras sit amet sapien urna. Cras molestie ornare justo et convallis. Suspendisse potenti. Suspendisse a justo eu sapien aliquam scelerisque. Aliquam feugiat dapibus tellus, non lobortis lectus maximus vitae. Integer in blandit nisl. Cras pretium pellentesque ultrices. Nullam metus justo, efficitur sed malesuada nec, mattis in dolor. Nulla facilisi. Pellentesque tristique euismod pulvinar. Integer blandit urna nisl, et cursus velit scelerisque vel."
   },
   {
     name: "Canyon Floor",
     image: "https://farm9.staticflickr.com/8038/7930463550_42c3f82870.jpg",
-    description: "Currently deserted"
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales iaculis ante quis auctor. Quisque sit amet semper nisl. Nullam sit amet dictum leo, at scelerisque purus. Cras sit amet sapien urna. Cras molestie ornare justo et convallis. Suspendisse potenti. Suspendisse a justo eu sapien aliquam scelerisque. Aliquam feugiat dapibus tellus, non lobortis lectus maximus vitae. Integer in blandit nisl. Cras pretium pellentesque ultrices. Nullam metus justo, efficitur sed malesuada nec, mattis in dolor. Nulla facilisi. Pellentesque tristique euismod pulvinar. Integer blandit urna nisl, et cursus velit scelerisque vel."
   }
 ];
 

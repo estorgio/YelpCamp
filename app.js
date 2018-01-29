@@ -33,25 +33,16 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use(function (req, res, next) {
+  res.locals.currentUser = req.user;
+  next();
+});
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 app.disable('x-powered-by');
 
-// Campground.create({
-//   name: "Granite Hill",
-//   image: "https://farm7.staticflickr.com/6014/6015893151_044a2af184.jpg",
-//   description: 'This is a huge granite hill, no bathrooms. No water. Beautiful granite!'
-// }, function (err, campground) {
-//   if (err) {
-//     console.log('An error occurred while adding to the database.');
-//     console.log(err);
-//   } else {
-//     console.log('Campground successfully added.');
-//     console.log(campground);
-//   }
-// });
 
 app.get('/', function (req, res) {
   res.render('landing');

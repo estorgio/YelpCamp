@@ -1,13 +1,13 @@
-var express     = require('express'),
-    app         = express(),
-    bodyParser  = require('body-parser'),
-    mongoose    = require('mongoose'),
-    passport    = require('passport'),
-    LocalStrategy = require('passport-local'),
-    Campground  = require('./models/campground'),
-    Comment     = require('./models/comment'),
-    User        = require('./models/user'),
-    seedDB      = require('./seeds');
+var express = require('express'),
+  app = express(),
+  bodyParser = require('body-parser'),
+  mongoose = require('mongoose'),
+  passport = require('passport'),
+  LocalStrategy = require('passport-local'),
+  Campground = require('./models/campground'),
+  Comment = require('./models/comment'),
+  User = require('./models/user'),
+  seedDB = require('./seeds');
 
 mongoose.connect('mongodb://localhost/yelp_camp', function (err) {
   if (err) {
@@ -58,7 +58,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/campgrounds', function (req, res) {
-  Campground.find({}, function(err, allCampgrounds) {
+  Campground.find({}, function (err, allCampgrounds) {
     if (err) {
       console.log(err);
     } else {
@@ -123,13 +123,13 @@ app.post('/campgrounds/:id/comments', function (req, res) {
       console.log(err);
       res.redirect('/campgrounds');
     } else {
-      Comment.create(req.body.comment, function(err, comment) {
+      Comment.create(req.body.comment, function (err, comment) {
         if (err) {
           console.log(err);
           res.redirect('/campgrounds');
         } else {
           foundCamground.comments.push(comment._id);
-          foundCamground.save(function(err) {
+          foundCamground.save(function (err) {
             if (err) {
               console.log('/campgrounds');
             } else {
@@ -152,6 +152,7 @@ app.get('/register', function (req, res) {
   res.render('register');
 });
 
+// Handle sign up logic
 app.post('/register', function (req, res) {
   var newUser = new User({username: req.body.username});
   User.register(newUser, req.body.password, function (err, user) {
@@ -159,12 +160,22 @@ app.post('/register', function (req, res) {
       console.log(err);
       return res.render('register');
     }
-    passport.authenticate('local')(req, res, function (){
+    passport.authenticate('local')(req, res, function () {
       res.redirect('/campgrounds');
     });
   });
 });
 
+// Show login form
+app.get('/login', function (req, res) {
+  res.render('login');
+});
+
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/campgrounds',
+  failureRedirect: '/login'
+}), function (req, res) {
+});
 
 app.listen(3000, function () {
   console.log('App has started on port 3000.');

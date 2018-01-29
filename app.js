@@ -3,6 +3,7 @@ var express     = require('express'),
     bodyParser  = require('body-parser'),
     mongoose    = require('mongoose'),
     Campground  = require('./models/campground'),
+    Comment     = require('./models/comment'),
     seedDB      = require('./seeds');
 
 mongoose.connect('mongodb://localhost/yelp_camp', function (err) {
@@ -97,6 +98,31 @@ app.get('/campgrounds/:id/comments/new', function (req, res) {
       res.render('comments/new', {campground: foundCampground});
     }
   });
+});
+
+app.post('/campgrounds/:id/comments', function (req, res) {
+  Campground.findById(req.params.id, function (err, foundCamground) {
+    if (err) {
+      console.log(err);
+      res.redirect('/campgrounds');
+    } else {
+      Comment.create(req.body.comment, function(err, comment) {
+        if (err) {
+          console.log(err);
+          res.redirect('/campgrounds');
+        } else {
+          foundCamground.comments.push(comment._id);
+          foundCamground.save(function(err) {
+            if (err) {
+              console.log('/campgrounds');
+            } else {
+              res.redirect('/campgrounds/' + foundCamground._id);
+            }
+          });
+        }
+      });
+    }
+  })
 });
 
 app.listen(3000, function () {

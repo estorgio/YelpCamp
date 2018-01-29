@@ -18,9 +18,9 @@ mongoose.connect('mongodb://localhost/yelp_camp', function (err) {
 seedDB();
 
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 app.disable('x-powered-by');
-
 
 // Campground.create({
 //   name: "Granite Hill",

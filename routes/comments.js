@@ -27,6 +27,11 @@ router.post('/', isLoggedIn, function (req, res) {
           console.log(err);
           res.redirect('/campgrounds');
         } else {
+          comment.author.id = req.user._id;
+          comment.author.username = req.user.username;
+          comment.save();
+          console.log('VALUE OF comment');
+          console.log(comment);
           foundCamground.comments.push(comment._id);
           foundCamground.save(function (err) {
             if (err) {

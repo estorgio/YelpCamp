@@ -20,7 +20,10 @@
                     <p>
                         <em>Submitted by <%= campground.author.username %></em>
                     </p>
-                    <a href="/campgrounds/<%= campground._id %>/edit" class="btn btn-success">Edit Campground</a>
+                    <a href="/campgrounds/<%= campground._id %>/edit" class="btn btn-xs btn-success">Edit</a>
+                    <form id="delete-form" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="post">
+                        <input type="submit" value="Delete" class="btn btn-xs btn-danger">
+                    </form>
                 </div>
             </div>
             <div class="well">

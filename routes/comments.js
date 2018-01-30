@@ -25,7 +25,7 @@ router.post('/', middleware.isLoggedIn, function (req, res) {
     } else {
       Comment.create(req.body.comment, function (err, comment) {
         if (err) {
-          console.log(err);
+          req.flash('error', 'YelpCamp has encountered a problem and is unable to proceed.');
           res.redirect('/campgrounds');
         } else {
           comment.author.id = req.user._id;
@@ -34,8 +34,10 @@ router.post('/', middleware.isLoggedIn, function (req, res) {
           foundCamground.comments.push(comment._id);
           foundCamground.save(function (err) {
             if (err) {
+              req.flash('error', 'YelpCamp has encountered a problem and is unable to proceed.');
               console.log('/campgrounds');
             } else {
+              req.flash('success', 'Successfully added comment');
               res.redirect('/campgrounds/' + foundCamground._id);
             }
           });
@@ -71,8 +73,10 @@ router.put('/:comment_id', middleware.checkCommentOwnership, function (req, res)
 router.delete('/:comment_id', middleware.checkCommentOwnership, function (req, res) {
   Comment.findByIdAndRemove(req.params.comment_id, function (err) {
     if (err) {
+      req.flash('error', 'YelpCamp has encountered a problem and is unable to proceed.');
       console.log(err);
     }
+    req.flash('success', 'Comment deleted');
     res.redirect('/campgrounds/' + req.params.id);
   });
 });

@@ -8,7 +8,7 @@ var middleware = require('../middleware');
 // Comments New
 router.get('/new', middleware.isLoggedIn, function (req, res) {
   Campground.findById(req.params.id, function (err, foundCampground) {
-    if (err) {
+    if (err || !foundCampground) {
       console.log(err);
     } else {
       res.render('comments/new', {campground: foundCampground});
@@ -18,8 +18,8 @@ router.get('/new', middleware.isLoggedIn, function (req, res) {
 
 // Comments Create
 router.post('/', middleware.isLoggedIn, function (req, res) {
-  Campground.findById(req.params.id, function (err, foundCamground) {
-    if (err) {
+  Campground.findById(req.params.id, function (err, foundCampground) {
+    if (err || !foundCampground) {
       console.log(err);
       res.redirect('/campgrounds');
     } else {
@@ -31,14 +31,14 @@ router.post('/', middleware.isLoggedIn, function (req, res) {
           comment.author.id = req.user._id;
           comment.author.username = req.user.username;
           comment.save();
-          foundCamground.comments.push(comment._id);
-          foundCamground.save(function (err) {
+          foundCampground.comments.push(comment._id);
+          foundCampground.save(function (err) {
             if (err) {
               req.flash('error', 'YelpCamp has encountered a problem and is unable to proceed.');
               console.log('/campgrounds');
             } else {
               req.flash('success', 'Successfully added comment');
-              res.redirect('/campgrounds/' + foundCamground._id);
+              res.redirect('/campgrounds/' + foundCampground._id);
             }
           });
         }
@@ -50,7 +50,7 @@ router.post('/', middleware.isLoggedIn, function (req, res) {
 // COMMENT EDIT ROUTE
 router.get('/:comment_id/edit', middleware.checkCommentOwnership, function (req, res) {
   Comment.findById(req.params.comment_id, function (err, foundComment) {
-    if (err) {
+    if (err || !foundComment) {
       console.log(err);
       return res.redirect('back');
     }
@@ -61,7 +61,7 @@ router.get('/:comment_id/edit', middleware.checkCommentOwnership, function (req,
 // COMMENT UPDATE ROUTE
 router.put('/:comment_id', middleware.checkCommentOwnership, function (req, res) {
   Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
-    if (err) {
+    if (err || !updatedComment) {
       console.log(err);
       return res.redirect('back');
     }

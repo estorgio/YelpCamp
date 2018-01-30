@@ -49,7 +49,7 @@ router.get('/new', middleware.isLoggedIn, function (req, res) {
 router.get('/:id', function (req, res) {
   var id = req.params.id;
   Campground.findById(id).populate('comments').exec(function (err, foundCampground) {
-    if (err) {
+    if (err || !foundCampground) {
       console.log(err);
     } else {
       res.render('campgrounds/show', {campground: foundCampground});
@@ -61,6 +61,10 @@ router.get('/:id', function (req, res) {
 // EDIT CAMPGROUND ROUTE
 router.get('/:id/edit', middleware.checkCampgroundOwnership, function (req, res) {
   Campground.findById(req.params.id, function (err, foundCampground) {
+    if (err || !foundCampground) {
+      req.flash('error', 'YelpCamp has encountered a problem and is unable to proceed.');
+      return res.redirect('/campgrounds/' + req.params.id);
+    }
     res.render('campgrounds/edit', {campground: foundCampground});
   });
 });
@@ -68,7 +72,7 @@ router.get('/:id/edit', middleware.checkCampgroundOwnership, function (req, res)
 // UPDATE CAMPGROUND ROUTE
 router.put('/:id', middleware.checkCampgroundOwnership, function (req, res) {
   Campground.findByIdAndUpdate(req.params.id, req.body.campground, function (err, updatedCampground) {
-    if (err) {
+    if (err || !updatedCampground) {
       console.log(err);
       return res.redirect('/campgrounds');
     }

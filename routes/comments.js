@@ -30,8 +30,6 @@ router.post('/', isLoggedIn, function (req, res) {
           comment.author.id = req.user._id;
           comment.author.username = req.user.username;
           comment.save();
-          console.log('VALUE OF comment');
-          console.log(comment);
           foundCamground.comments.push(comment._id);
           foundCamground.save(function (err) {
             if (err) {
@@ -63,6 +61,16 @@ router.put('/:comment_id', function (req, res) {
     if (err) {
       console.log(err);
       return res.redirect('back');
+    }
+    res.redirect('/campgrounds/' + req.params.id);
+  });
+});
+
+// COMMENT DESTROY ROUTE
+router.delete('/:comment_id', function (req, res) {
+  Comment.findByIdAndRemove(req.params.comment_id, function (err) {
+    if (err) {
+      console.log(err);
     }
     res.redirect('/campgrounds/' + req.params.id);
   });

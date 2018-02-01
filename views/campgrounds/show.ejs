@@ -37,7 +37,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <strong><%= comment.author.username %></strong>
-                            <span class="pull-right">10 days ago</span>
+                            <span class="pull-right"><%= comment.created.toUTCString() %></span>
                             <p><%= comment.text %></p>
                             <% if (currentUser && currentUser._id.equals(comment.author.id)) { %>
                                 <a href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit"

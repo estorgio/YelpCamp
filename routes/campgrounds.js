@@ -17,20 +17,14 @@ router.get('/', function (req, res) {
 
 // CREATE - add new campgrounds to DB
 router.post('/', middleware.isLoggedIn, function (req, res) {
-  var name = req.body.name;
-  var image = req.body.image;
-  var description = req.body.description;
-  var author = {
+  var newCampground = req.body.campground;
+  if (newCampground.price) {
+    newCampground.price = parseFloat(parseFloat(newCampground.price).toFixed(2));
+  }
+  newCampground.author = {
     id: req.user._id,
     username: req.user.username
   };
-  var newCampground = {
-    name: name,
-    image: image,
-    description: description,
-    author: author
-  };
-
   Campground.create(newCampground, function (err, campground) {
     if (err) {
       console.log('An error occurred while adding new campground');
@@ -71,7 +65,11 @@ router.get('/:id/edit', middleware.checkCampgroundOwnership, function (req, res)
 
 // UPDATE CAMPGROUND ROUTE
 router.put('/:id', middleware.checkCampgroundOwnership, function (req, res) {
-  Campground.findByIdAndUpdate(req.params.id, req.body.campground, function (err, updatedCampground) {
+  var campground = req.body.campground;
+  if (campground.price) {
+    campground.price = parseFloat(parseFloat(campground.price).toFixed(2));
+  }
+  Campground.findByIdAndUpdate(req.params.id, campground, function (err, updatedCampground) {
     if (err || !updatedCampground) {
       console.log(err);
       return res.redirect('/campgrounds');
